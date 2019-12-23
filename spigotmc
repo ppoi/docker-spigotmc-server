@@ -1,0 +1,43 @@
+#!/bin/sh
+
+TOOL_DIR=$(cd `dirname $0`; pwd)
+
+REVISION="${REVISION:-"current"}"
+SERVER_DIR="${SERVER_DIR:-"/minecraft"}"
+SERVER_JAR="${1:-"spigot-${REVISION}.jar"}"
+
+SPIGOT_BUILDTOOS_URL=${SPIGOT_BUILDTOOS_URL:-"https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"}
+SPIGOT_BUILD_MEM=${SPIGOT_BUILD_MEM:-"1024M"}
+SPIGOT_SERVER_MEM=${SPIGOT_SERVER_MEM:-"2G"}
+SPIGOT_SERVER_GC=${SPIGOT_SERVER_GC:-"+UseConcMarkSweepGC"}
+JAVA_CMD=${JAVA_CMD:-$(which java)}
+
+cd ${SERVER_DIR}
+
+if [ ! -z "$1" ]; then
+    if [ -f "${SERVER_DIR}/$1" ]; then
+        SERVER_JAR="$1"
+    else
+        echo "Server jar <$1> is not found."
+        exit 1
+    fi
+else
+    SERVER_JAR="spigot-${REVISION}.jar"
+    if [ ! -f "${SERVER_DIR}/${SERVER_JAR}" ]; then
+        echo "Build SpigotMC server jar, revision=${REVISION}."
+        mkdir /_build
+        cd /_build
+        curl -l ${SPIGOT_BUILDTOOS_URL} > ./BuildTools.jar
+        ${JAVA_CMD} -Xmx${SPIGOT_BUILD_MEM} -jar ./BuildTools.jar --rev "${REVISION}" --output-dir ${SERVER_DIR} \
+            || { echo "Build failed."; popd; exit 1; }
+        cd ${SERVER_DIR}
+        rm -rf /_build
+    fi
+fi
+
+echo "Use serverjar \"${SERVER_JAR}\""
+if [ "${EULA}"="true" -a ! -f "${SERVER_DIR}/eula.txt" ]; then
+    echo "set EULA is true."
+    echo "eula=true" > ${SERVER_DIR}/eula.txt
+fi
+${JAVA_CMD} -Xmx${SPIGOT_SERVER_MEM} -Xms${SPIGOT_SERVER_MEM} -XX:${SPIGOT_SERVER_GC} -jar ${SERVER_JAR} --noconsole
