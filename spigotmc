@@ -6,7 +6,7 @@ REVISION="${REVISION:-"current"}"
 SERVER_DIR="${SERVER_DIR:-"/minecraft"}"
 SERVER_JAR="${1:-"spigot-${REVISION}.jar"}"
 
-SPIGOT_BUILDTOOS_URL=${SPIGOT_BUILDTOOS_URL:-"https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"}
+SPIGOT_BUILDTOOS_URL=${SPIGOT_BUILDTOOLS_URL:-"https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"}
 SPIGOT_BUILD_MEM=${SPIGOT_BUILD_MEM:-"1024M"}
 SPIGOT_SERVER_MEM=${SPIGOT_SERVER_MEM:-"2G"}
 SPIGOT_SERVER_GC=${SPIGOT_SERVER_GC:-"+UseConcMarkSweepGC"}
@@ -27,7 +27,7 @@ else
         echo "Build SpigotMC server jar, revision=${REVISION}."
         mkdir /_build
         cd /_build
-        curl -l ${SPIGOT_BUILDTOOS_URL} > ./BuildTools.jar
+        curl -l ${SPIGOT_BUILDTOOLS_URL} > ./BuildTools.jar
         ${JAVA_CMD} -Xmx${SPIGOT_BUILD_MEM} -jar ./BuildTools.jar --rev "${REVISION}" --output-dir ${SERVER_DIR} \
             || { echo "Build failed."; popd; exit 1; }
         cd ${SERVER_DIR}

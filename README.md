@@ -9,17 +9,17 @@ docker run --detach --volume /path/to/datadir:/minecraft --publish 25565:25565 t
 ````
 
 #### Volumes ####
-- `/minecraft`: Minecraft(SpigtMC) server dir.
+- `/minecraft`: Minecraft(SpigotMC) server dir.
 
 #### Ports ####
-- `25565/tcp`: Minecraft(SpigtMC) service port.
+- `25565/tcp`: Minecraft(SpigotMC) service port.
 
 ## 2. Environment Variables ##
 
-- `REVISION`: Revision number of SpigtMC. default:`1.15.1`
-- `SPIGOT_BUILDTOOS_URL`: URL of SpigtMC BuildTools.jar distribution. default:`https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar`
+- `REVISION`: Revision number of SpigotMC. default:`1.15.2`
+- `SPIGOT_BUILDTOOLS_URL`: URL of SpigotMC BuildTools.jar distribution. default:`https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar`
 - `SPIGOT_BUILD_MEM`: Heap size for building SpigotMC server.jar. default:`1024M`
-- `SPIGOT_SERVER_MEM`: Heap size for running SpigtMC server. default:`2G`
-- `SPIGOT_SERVER_GC`: JVM GC Options for runnning SpigtMC server. default:`+UseConcMarkSweepGC`
+- `SPIGOT_SERVER_MEM`: Heap size for running SpigotMC server. default:`2G`
+- `SPIGOT_SERVER_GC`: JVM GC Options for runnning SpigotMC server. default:`+UseConcMarkSweepGC`
 - `SERVER_PORT`: TCP Port for SpigotMC server. specify appropriate number if you change port setting in your server.properties. default:`25565`
 - `EULA`: if set `true`, then generate `eula.txt` as that is agree. default:`false`

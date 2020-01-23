@@ -7,8 +7,8 @@ ADD spigotmc /spigot-tools
 EXPOSE 25565 8123
 VOLUME /minecraft
 
-ENV REVISION="1.15.1" \
-    SPIGOT_BUILDTOOS_URL="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar" \
+ENV REVISION="1.15.2" \
+    SPIGOT_BUILDTOOLS_URL="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar" \
     SPIGOT_BUILD_MEM="1024M" \
     SPIGOT_SERVER_MEM="2G" \
     SPIGOT_SERVER_GC="+UseConcMarkSweepGC" \
