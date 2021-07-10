@@ -2,7 +2,7 @@
 
 TOOL_DIR=$(cd `dirname $0`; pwd)
 
-REVISION="${REVISION:-"current"}"
+REVISION="${REVISION:-"1.16.1"}"
 SERVER_DIR="${SERVER_DIR:-"/minecraft"}"
 SERVER_JAR="${1:-"spigot-${REVISION}.jar"}"
 
@@ -35,9 +35,14 @@ else
     fi
 fi
 
+case "${REVISION}" in
+    1.16|1.16.*) SERVER_OPTS="nogui";;
+    *) SERVER_OPTS="--noconsole"
+esac
+
 echo "Use serverjar \"${SERVER_JAR}\""
 if [ "${EULA}"="true" -a ! -f "${SERVER_DIR}/eula.txt" ]; then
     echo "set EULA is true."
     echo "eula=true" > ${SERVER_DIR}/eula.txt
 fi
-${JAVA_CMD} -Xmx${SPIGOT_SERVER_MEM} -Xms${SPIGOT_SERVER_MEM} -XX:${SPIGOT_SERVER_GC} -jar ${SERVER_JAR} --noconsole
+${JAVA_CMD} -Xmx${SPIGOT_SERVER_MEM} -Xms${SPIGOT_SERVER_MEM} -XX:${SPIGOT_SERVER_GC} -jar ${SERVER_JAR} ${SERVER_OPTS}
